@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import Authentication from '../components/Authentication.js';
+import CreditCardForm from '../components/CreditCardForm.js';
 
-class AuthScreen extends Component {
+class CreditCardScreen extends Component {
   constructor(props) {
     super(props);
   }
@@ -10,10 +10,10 @@ class AuthScreen extends Component {
   render() {
     return (
       <View>
-        <Authentication />
+        <CreditCardForm />
       </View>
     );
   }
 }
 
-export default AuthScreen;
+export default CreditCardScreen;

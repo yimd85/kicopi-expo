@@ -5,6 +5,7 @@ import { Icon } from 'react-native-elements';
 import Authentication from '../components/Authentication.js';
 import AuthScreen from './AuthScreen';
 import MapScreen from './MapScreen';
+import CreditCardScreen from './CreditCardScreen';
 
 class HomeScreen extends Component {
   render() {
@@ -58,6 +59,22 @@ const HomeScreenTabNavigator = TabNavigator(
         tabBarIcon: ({ tintColor, focused }) => (
           <Icon
             name={'map'}
+            type={'feather'}
+            size={30}
+            color="#517fa4"
+            style={{ color: tintColor }}
+          />
+        )
+      }
+    },
+    CreditCardScreen: {
+      screen: CreditCardScreen,
+      navigationOptions: {
+        title: <Text style={{ fontFamily: 'Arial' }}>KiCoPi</Text>,
+        tabBarLabel: 'Card',
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Icon
+            name={'credit-card'}
             type={'feather'}
             size={30}
             color="#517fa4"

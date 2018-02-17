@@ -4,6 +4,7 @@ import { StackNavigator } from 'react-navigation';
 import HomeScreen from './screens/HomeScreen.js';
 import MapScreen from './screens/MapScreen.js';
 import AuthScreen from './screens/AuthScreen.js';
+import CreditCardScreen from './screens/CreditCardScreen.js';
 
 class App extends Component {
   render() {
@@ -26,6 +27,12 @@ const AppNavigator = StackNavigator({
   },
   MapScreen: {
     screen: MapScreen,
+    navigationOptions: {
+      headerLeft: null
+    }
+  },
+  CreditCardScreen: {
+    screen: CreditCardScreen,
     navigationOptions: {
       headerLeft: null
     }
