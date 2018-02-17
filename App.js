@@ -1,54 +1,35 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import firebase from 'firebase';
-import { Header, Button, Spinner, CardSection } from './components/common';
-import LoginForm from './components/LoginForm';
+import { StyleSheet } from 'react-native';
+import { StackNavigator } from 'react-navigation';
+import HomeScreen from './screens/HomeScreen.js';
+import MapScreen from './screens/MapScreen.js';
+import AuthScreen from './screens/AuthScreen.js';
 
 class App extends Component {
-  state = { loggedIn: null };
-
-  componentWillMount() {
-    firebase.initializeApp({
-      apiKey: 'AIzaSyDNg7Yvip2uARARUtmWgPkiGlZRaA9V06M',
-      authDomain: 'nycda-b7787.firebaseapp.com',
-      databaseURL: 'https://nycda-b7787.firebaseio.com',
-      projectId: 'nycda-b7787',
-      storageBucket: 'nycda-b7787.appspot.com',
-      messagingSenderId: '271662565963'
-    });
-
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.setState({ loggedIn: true });
-      } else {
-        this.setState({ loggedIn: false });
-      }
-    });
-  }
-
-  renderContent() {
-    switch (this.state.loggedIn) {
-      case true:
-        return (
-          <CardSection>
-            <Button onPress={() => firebase.auth().signOut()}>LogOut</Button>
-          </CardSection>
-        );
-      case false:
-        return <LoginForm />;
-      default:
-        return <Spinner size="large" />;
-    }
-  }
-
   render() {
-    return (
-      <View>
-        <Header headerText="Authentication" />
-        {this.renderContent()}
-      </View>
-    );
+    return <AppNavigator />;
   }
 }
+
+const AppNavigator = StackNavigator({
+  HomeScreen: {
+    screen: HomeScreen,
+    navigationOptions: {
+      headerLeft: null
+    }
+  },
+  AuthScreen: {
+    screen: AuthScreen,
+    navigationOptions: {
+      headerLeft: null
+    }
+  },
+  MapScreen: {
+    screen: MapScreen,
+    navigationOptions: {
+      headerLeft: null
+    }
+  }
+});
 
 export default App;
