@@ -1,106 +1,93 @@
 import React, { Component } from 'react';
 import Stripe from 'react-native-stripe-api';
-import { View } from 'react-native';
-import { Header, Button, Card, CardSection, Input } from './common';
+import { View, StyleSheet } from 'react-native';
+import {
+  CreditCardInput,
+  LiteCreditCardInput
+} from 'react-native-credit-card-input';
+import { Header, Button, CardSection } from './common';
+
+const USE_LITE_CREDIT_CARD_INPUT = false;
 
 class CreditCardForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      card: '',
-      mm: '',
-      yy: '',
-      cvc: '',
-      zip: '',
-      error: '',
-      loading: false
-    };
-  }
+  state = {};
 
   onButtonPress() {
-    const { card, mm, yy, cvc, zip } = this.state;
-    console.log(card);
-    console.log(mm);
-    console.log(yy);
-    console.log(cvc);
-    console.log(zip);
-    const apiKey = 'pk_test_bYA8nL2mJDUecGXtb1nGNoVO';
-    const client = new Stripe(apiKey);
-    const token = client
-      .createToken({
-        number: card,
-        exp_month: mm,
-        exp_year: yy,
-        cvc, //shorthand es6
-        address_zip: zip
-      })
-      .then(this.onCardSaveSuccess.bind(this));
+    console.log(this.state);
   }
 
-  onCardSaveSuccess(props) {
-    console.log(props);
+  onChange = formData => {
+    const formSubmit = formData.values;
+    console.log(JSON.stringify(formData, null, ' '));
     this.setState({
-      card: '',
-      mm: '',
-      yy: '',
-      cvc: '',
-      zip: ''
+      number: formSubmit.number,
+      exp_month: parseInt(formSubmit.expiry.substr(0, 2), 0),
+      exp_year: parseInt(formSubmit.expiry.substr(3, 2), 0) + 2000,
+      cvc: formSubmit.cvc,
+      name: formSubmit.name,
+      valid: formData.valid
     });
-  }
+  };
+
+  onFocus = field => {
+    /* eslint no-console: 0 */
+    console.log(field);
+  };
 
   render() {
     return (
       <View>
         <Header headerText="CreditCardForm" />
-        <Card>
-          <CardSection>
-            <Input
-              label="Card#:"
-              placeholder="4242 4242 4242 4242"
-              value={this.state.card}
-              onChangeText={card => this.setState({ card })}
+        <View style={s.container}>
+          {USE_LITE_CREDIT_CARD_INPUT ? (
+            <LiteCreditCardInput
+              autoFocus
+              inputStyle={s.input}
+              validColor={'black'}
+              invalidColor={'red'}
+              placeholderColor={'darkgray'}
+              onFocus={this.onFocus}
+              onChange={this.onChange}
             />
-          </CardSection>
-
-          <CardSection>
-            <Input
-              label="MM:"
-              placeholder="01"
-              value={this.state.mm}
-              onChangeText={mm => this.setState({ mm })}
+          ) : (
+            <CreditCardInput
+              autoFocus
+              requiresName
+              requiresCVC
+              // requiresPostalCode
+              labelStyle={s.label}
+              inputStyle={s.input}
+              validColor={'black'}
+              invalidColor={'red'}
+              placeholderColor={'darkgray'}
+              onFocus={this.onFocus}
+              onChange={this.onChange}
             />
-
-            <Input
-              label="YY:"
-              placeholder="2020"
-              value={this.state.yy}
-              onChangeText={yy => this.setState({ yy })}
-            />
-          </CardSection>
-
-          <CardSection>
-            <Input
-              label="CVC:"
-              placeholder="123"
-              value={this.state.cvc}
-              onChangeText={cvc => this.setState({ cvc })}
-            />
-
-            <Input
-              label="ZIP:"
-              placeholder="11111"
-              value={this.state.zip}
-              onChangeText={zip => this.setState({ zip })}
-            />
-          </CardSection>
-
-          <CardSection>
+          )}
+        </View>
+        <CardSection>
+          {this.state.valid === true ? (
             <Button onPress={this.onButtonPress.bind(this)}>Submit</Button>
-          </CardSection>
-        </Card>
+          ) : null}
+        </CardSection>
       </View>
     );
   }
 }
+
+const s = StyleSheet.create({
+  container: {
+    backgroundColor: '#F5F5F5',
+    marginTop: 60
+  },
+  label: {
+    color: 'black',
+    fontSize: 12
+  },
+  input: {
+    fontSize: 16,
+    color: 'black'
+  }
+});
 
 export default CreditCardForm;
