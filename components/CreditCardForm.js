@@ -51,7 +51,7 @@ class CreditCardForm extends Component {
             />
           ) : (
             <CreditCardInput
-              autoFocus
+              // autoFocus
               requiresName
               requiresCVC
               // requiresPostalCode

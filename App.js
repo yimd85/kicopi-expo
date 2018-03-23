@@ -6,37 +6,37 @@ import MapScreen from './screens/MapScreen.js';
 import AuthScreen from './screens/AuthScreen.js';
 import CreditCardScreen from './screens/CreditCardScreen.js';
 
-class App extends Component {
+export default class App extends React.Component {
   render() {
-    return <AppNavigator />;
+    const AppNavigator = StackNavigator({
+      HomeScreen: {
+        screen: HomeScreen,
+        navigationOptions: {
+          headerLeft: null
+        }
+      },
+      AuthScreen: {
+        screen: AuthScreen,
+        navigationOptions: {
+          headerLeft: null
+        }
+      },
+      MapScreen: {
+        screen: MapScreen,
+        navigationOptions: {
+          headerLeft: null
+        }
+      },
+      CreditCardScreen: {
+        screen: CreditCardScreen,
+        navigationOptions: {
+          headerLeft: null
+        }
+      }
+    });
+
+  return (
+    <AppNavigator />
+  );
   }
 }
-
-const AppNavigator = StackNavigator({
-  HomeScreen: {
-    screen: HomeScreen,
-    navigationOptions: {
-      headerLeft: null
-    }
-  },
-  AuthScreen: {
-    screen: AuthScreen,
-    navigationOptions: {
-      headerLeft: null
-    }
-  },
-  MapScreen: {
-    screen: MapScreen,
-    navigationOptions: {
-      headerLeft: null
-    }
-  },
-  CreditCardScreen: {
-    screen: CreditCardScreen,
-    navigationOptions: {
-      headerLeft: null
-    }
-  }
-});
-
-export default App;
